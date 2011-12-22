@@ -123,10 +123,4 @@ public class JSUPHardwareManager {
 	 * @return Total size of the directory
 	 */
 	public native long getDirectorySize(String directory);
-	
-	public static void main(String[] args) {
-		long directorySize = JSUPHardwareManager.getInstance().getDirectorySize("/home/guilherme/Downloads");
-		
-		System.out.println(directorySize);
-	}
 }
