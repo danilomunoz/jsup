@@ -47,7 +47,7 @@ string convertCharsToString(unsigned char * ch) {
 	return serial;
 }
 
-JNIEXPORT jlong JNICALL Java_br_com_jsup_hardware_JSUPHardwareManager_getPartitionFreeSpace(JNIEnv *env, jclass cl, jstring path) {
+JNIEXPORT jlong JNICALL Java_br_com_jsup_hardware_JSUPHardwareManager_getPartitionFreeSize(JNIEnv *env, jobject, jstring path) {
 	jlong ret = 0;
 	struct statvfs * fiData = new struct statvfs;
 
@@ -62,7 +62,7 @@ JNIEXPORT jlong JNICALL Java_br_com_jsup_hardware_JSUPHardwareManager_getPartiti
 	return ret;
 }
 
-JNIEXPORT jlong JNICALL Java_br_com_jsup_hardware_JSUPHardwareManager_getPartitionTotalSpace(JNIEnv *env, jclass cl, jstring path) {
+JNIEXPORT jlong JNICALL Java_br_com_jsup_hardware_JSUPHardwareManager_getPartitionTotalSize(JNIEnv *env, jobject, jstring path) {
 	jlong ret = 0;
 	struct statvfs * fiData = new struct statvfs;
 
@@ -77,7 +77,7 @@ JNIEXPORT jlong JNICALL Java_br_com_jsup_hardware_JSUPHardwareManager_getPartiti
 	return ret;
 }
 
-JNIEXPORT jlong JNICALL Java_br_com_jsup_hardware_JSUPHardwareManager_getPartitionUsedSpace(JNIEnv * env, jclass, jstring path) {
+JNIEXPORT jlong JNICALL Java_br_com_jsup_hardware_JSUPHardwareManager_getPartitionUsedSize(JNIEnv *env, jobject, jstring path) {
 	jlong ret = 0;
 	struct statvfs * fiData = new struct statvfs;
 
@@ -109,7 +109,7 @@ int loadHDInformation(struct hd_driveid hd, const char *str) {
 /**
  * Get hard disk serial number
  */
-JNIEXPORT jstring JNICALL Java_br_com_jsup_hardware_JSUPHardwareManager_getHardDiskSerial(JNIEnv *env, jclass, jstring device) {
+JNIEXPORT jstring JNICALL Java_br_com_jsup_hardware_JSUPHardwareManager_getHardDiskSerial(JNIEnv *env, jobject, jstring device) {
 	jstring ret = env->NewStringUTF("");
 
 	int fd;
@@ -128,7 +128,7 @@ JNIEXPORT jstring JNICALL Java_br_com_jsup_hardware_JSUPHardwareManager_getHardD
 	return ret;
 }
 
-JNIEXPORT jstring JNICALL Java_br_com_jsup_hardware_JSUPHardwareManager_getHardDiskModel (JNIEnv * env, jclass, jstring device) {
+JNIEXPORT jstring JNICALL Java_br_com_jsup_hardware_JSUPHardwareManager_getHardDiskModel(JNIEnv *env, jobject, jstring device) {
 	jstring ret = env->NewStringUTF("");
 
 	int fd;
@@ -155,9 +155,6 @@ JNIEXPORT jlong JNICALL Java_br_com_jsup_hardware_JSUPHardwareManager_getDirecto
 
 	int status = stat(str, data);
 	if (status >= 0) {
-		cout << data->st_blksize << endl;
-		cout << data->st_blocks << endl;
-
 		ret = data->st_blksize * data->st_blocks;
 	}
 
