@@ -15,8 +15,15 @@
 #include <fcntl.h>
 #include <sys/ioctl.h>
 #include <linux/hdreg.h>
+#include <errno.h>
+#include <dirent.h>
+#include <stdio.h>
+
 
 using namespace std;
+
+unsigned char isFile 	= 		0x8;
+unsigned char isFolder 	=		0x4;
 
 
 const char * getStringUTF(JNIEnv *env, jstring convertString) {
@@ -147,16 +154,53 @@ JNIEXPORT jstring JNICALL Java_br_com_jsup_hardware_JSUPHardwareManager_getHardD
 	return ret;
 }
 
-JNIEXPORT jlong JNICALL Java_br_com_jsup_hardware_JSUPHardwareManager_getDirectorySize(JNIEnv * env, jobject, jstring directory) {
-	jlong ret = 0;
-	struct stat * data = new struct stat;
+long getDirectorySize(string path) {
+	long total = 0;
 
+	DIR * pdir = opendir(path.c_str());
+
+	if (pdir) {
+		struct dirent *pent;
+
+		while ((pent=readdir(pdir))) {
+			string name = pent->d_name;
+
+			if (name.compare(".") == 0 || name.compare("..") == 0) {
+				continue;
+			}
+
+			string absolutePath;
+			absolutePath.append(path);
+			absolutePath.append("/");
+			absolutePath.append(name);
+
+			if (pent->d_type == isFolder) {
+				total += getDirectorySize(absolutePath);
+			} else {
+				FILE * pFile;
+
+				pFile = fopen(absolutePath.c_str(),"rb");
+
+				if (pFile != NULL) {
+					fseek (pFile, 0, SEEK_END);
+					total += ftell(pFile);
+					fclose (pFile);
+				}
+			}
+		}
+
+		closedir(pdir);
+	}
+
+	return total;
+}
+
+JNIEXPORT jlong JNICALL Java_br_com_jsup_hardware_JSUPHardwareManager_getDirectorySize(JNIEnv * env, jobject, jstring directory) {
 	const char *str = getStringUTF(env, directory);
 
-	int status = stat(str, data);
-	if (status >= 0) {
-		ret = data->st_blksize * data->st_blocks;
-	}
+	jlong ret = getDirectorySize(str);
 
 	return ret;
 }
+
+
