@@ -8,7 +8,7 @@ public class JSUPHardwareManager {
 	 * @author Guilherme Gotardo
 	 *
 	 */
-	private enum LIBRARY_ARCH {
+	public enum LIBRARY_ARCH {
 		JSUP_x86,
 		JSUP_x64,
 	}
@@ -88,21 +88,21 @@ public class JSUPHardwareManager {
 	 * @param partitionName The name of partition
 	 * @return Free bytes of partition
 	 */
-	public native long getPartitionFreeSpace(String partitionName);
+	public native long getPartitionFreeSize(String partitionName);
 
 	/**
 	 * Get total space in bytes from partition
 	 * @param partitionName The name of partition
 	 * @return Total bytes of partition
 	 */
-	public native long getPartitionTotalSpace(String partitionName);
+	public native long getPartitionTotalSize(String partitionName);
 
 	/**
 	 * Get used space in bytes from partition
 	 * @param partitionName The name of the partition 
 	 * @return Total used bytes of partition
 	 */
-	public native long getPartitionUsedSpace(String partitionName);
+	public native long getPartitionUsedSize(String partitionName);
 	/**
 	 * Get the serial of a device
 	 * @param deviceName The device that you want know the serial

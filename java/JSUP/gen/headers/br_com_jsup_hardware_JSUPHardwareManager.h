@@ -9,26 +9,26 @@ extern "C" {
 #endif
 /*
  * Class:     br_com_jsup_hardware_JSUPHardwareManager
- * Method:    getPartitionFreeSpace
+ * Method:    getPartitionFreeSize
  * Signature: (Ljava/lang/String;)J
  */
-JNIEXPORT jlong JNICALL Java_br_com_jsup_hardware_JSUPHardwareManager_getPartitionFreeSpace
+JNIEXPORT jlong JNICALL Java_br_com_jsup_hardware_JSUPHardwareManager_getPartitionFreeSize
   (JNIEnv *, jobject, jstring);
 
 /*
  * Class:     br_com_jsup_hardware_JSUPHardwareManager
- * Method:    getPartitionTotalSpace
+ * Method:    getPartitionTotalSize
  * Signature: (Ljava/lang/String;)J
  */
-JNIEXPORT jlong JNICALL Java_br_com_jsup_hardware_JSUPHardwareManager_getPartitionTotalSpace
+JNIEXPORT jlong JNICALL Java_br_com_jsup_hardware_JSUPHardwareManager_getPartitionTotalSize
   (JNIEnv *, jobject, jstring);
 
 /*
  * Class:     br_com_jsup_hardware_JSUPHardwareManager
- * Method:    getPartitionUsedSpace
+ * Method:    getPartitionUsedSize
  * Signature: (Ljava/lang/String;)J
  */
-JNIEXPORT jlong JNICALL Java_br_com_jsup_hardware_JSUPHardwareManager_getPartitionUsedSpace
+JNIEXPORT jlong JNICALL Java_br_com_jsup_hardware_JSUPHardwareManager_getPartitionUsedSize
   (JNIEnv *, jobject, jstring);
 
 /*
