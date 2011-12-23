@@ -18,6 +18,7 @@
 #include <errno.h>
 #include <dirent.h>
 #include <stdio.h>
+#include <math.h>
 
 
 using namespace std;
@@ -33,6 +34,18 @@ const char * getStringUTF(JNIEnv *env, jstring convertString) {
 	free(cp);
 
 	return str;
+}
+
+long convertBlocksToBytes(unsigned long size) {
+	// multiply by 8 because 1 byte = 8bit
+	// so we need to divide by:
+	//2^21 == (gibabyte)
+	//2^11 == (megabyte)
+	//2^1 == (kb)
+	//2^0 == (b)
+
+	int p = pow(2, 1);
+	return (size) * 8 / p;
 }
 
 void releaseStringUTF(JNIEnv *env, jstring path, const char *str) {
@@ -61,7 +74,7 @@ JNIEXPORT jlong JNICALL Java_br_com_jsup_hardware_JSUPHardwareManager_getPartiti
 	int status = getDiskInformations(env, path, fiData);
 
 	if (status == 0) {
-		ret = fiData->f_bsize * fiData->f_bavail;
+		ret = convertBlocksToBytes(fiData->f_bavail);
 	}
 
 	free(fiData);
@@ -76,7 +89,7 @@ JNIEXPORT jlong JNICALL Java_br_com_jsup_hardware_JSUPHardwareManager_getPartiti
 	int status = getDiskInformations(env, path, fiData);
 
 	if (status == 0) {
-		ret = fiData->f_bsize * fiData->f_blocks;
+		ret = convertBlocksToBytes(fiData->f_blocks);
 	}
 
 	free(fiData);
@@ -91,7 +104,7 @@ JNIEXPORT jlong JNICALL Java_br_com_jsup_hardware_JSUPHardwareManager_getPartiti
 	int status = getDiskInformations(env, path, fiData);
 
 	if (status == 0) {
-		ret = fiData->f_bsize * (fiData->f_blocks - fiData->f_bavail);
+		ret = convertBlocksToBytes(fiData->f_blocks - fiData->f_bavail);
 	}
 
 	free(fiData);
