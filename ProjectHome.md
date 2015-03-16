@@ -1,0 +1,1 @@
+JSUP make easy to the Java developers access non-provided or low level linux functions on the Java SDK (e.g. partition information, directory size). This is done using JNI and C++ wrappers.
